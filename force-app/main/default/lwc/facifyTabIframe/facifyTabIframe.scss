@@ -1,0 +1,12 @@
+.facify-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.facify-iframe {
+    flex-grow: 1;
+    height: 100%;
+    border: none;
+    min-height: 700px; /* fallback for LWC layout constraints */
+}
