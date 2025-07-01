@@ -39,6 +39,6 @@ export default class FacifyTabIframe extends LightningElement {
   get computedUrl() {
     if (!this.contactId || !this.orgId || !this.orgName) return "";
 
-    return `https://nelly-dev-ed.thefacesgroup.org/login/auth?contactId=${this.contactId}&userId=${USER_ID}&orgId=${this.orgId}`;
+    return `https://nelly-dev-ed.thefacesgroup.org/auth/login?contactId=${this.contactId}&userId=${USER_ID}&orgId=${this.orgId}`;
   }
 }
