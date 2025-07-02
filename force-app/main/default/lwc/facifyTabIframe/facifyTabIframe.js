@@ -22,6 +22,6 @@ export default class FacifyTabIframe extends LightningElement {
 
     if (!this.contactId || !USER_ID) return "";
 
-    return `https://${orgName}.thefacesgroup.org/auth/login?contactId=${this.contactId}&userId=${USER_ID}&orgId=${this.orgId}`;
+    return `https://${orgName}.thefacesgroup.org/auth/login?contactId=${this.contactId}&userId=${USER_ID}&orgId=00DgL000001Qgsf`;
   }
 }
