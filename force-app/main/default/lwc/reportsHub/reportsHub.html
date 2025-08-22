@@ -16,14 +16,34 @@
               <td>{rep.Name}</td>
               <td>{rep.createdBy}</td>
               <td>
-                <a href={rep.facifyUrl} target="_blank">
-                  <lightning-button label="Access in Facify" variant="brand"></lightning-button>
-                </a>
+                <lightning-button
+                  label="Access in Facify"
+                  variant="brand"
+                  value={rep.facifyUrl}
+                  onclick={handleRedirect}>
+                </lightning-button>
               </td>
             </tr>
           </template>
           </tbody>
         </table>
+
+        <!-- Pagination Controls -->
+        <div class="slds-m-top_medium slds-grid slds-grid_align-center">
+          <lightning-button
+            label="Previous"
+            onclick={handlePrev}
+            disabled={isPrevDisabled}>
+          </lightning-button>
+
+          <span class="slds-m-horizontal_small">{paginationInfo}</span>
+
+          <lightning-button
+            label="Next"
+            onclick={handleNext}
+            disabled={isNextDisabled}>
+          </lightning-button>
+        </div>
       </template>
     </div>
   </lightning-card>

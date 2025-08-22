@@ -6,13 +6,26 @@ public with sharing class FacifyHelper {
     }
 
     @AuraEnabled(cacheable=true)
-    public static List<Report> getReports() {
-        return [
+    public static Map<String, Object> getReports(Integer pageNumber, Integer pageSize) {
+        Integer offset = (pageNumber - 1) * pageSize;
+
+        // Query reports
+        List<Report> reports = [
             SELECT Id, Name, CreatedBy.Name
             FROM Report
-            WHERE NamespacePrefix = NULL
-            ORDER BY LastModifiedDate DESC
-            LIMIT 10
+            ORDER BY CreatedDate DESC
+            LIMIT :pageSize
+            OFFSET :offset
         ];
+
+        // Count total
+        Integer totalRecords = [SELECT COUNT() FROM Report];
+
+        // Build response
+        Map<String, Object> response = new Map<String, Object>();
+        response.put('totalRecords', totalRecords);
+        response.put('records', reports);
+        return response;
     }
+
 }
