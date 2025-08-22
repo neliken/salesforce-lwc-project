@@ -1,0 +1,30 @@
+<template>
+  <lightning-card title="Reports Hub">
+    <div class="slds-p-around_medium">
+      <template if:true={reports}>
+        <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+          <thead>
+          <tr>
+            <th scope="col">Report Name</th>
+            <th scope="col">Created By</th>
+            <th scope="col">Open in Facify</th>
+          </tr>
+          </thead>
+          <tbody>
+          <template for:each={reports} for:item="rep">
+            <tr key={rep.Id}>
+              <td>{rep.Name}</td>
+              <td>{rep.createdBy}</td>
+              <td>
+                <a href={rep.facifyUrl} target="_blank">
+                  <lightning-button label="Access in Facify" variant="brand"></lightning-button>
+                </a>
+              </td>
+            </tr>
+          </template>
+          </tbody>
+        </table>
+      </template>
+    </div>
+  </lightning-card>
+</template>
