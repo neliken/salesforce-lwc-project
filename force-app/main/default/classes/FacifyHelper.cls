@@ -13,13 +13,14 @@ public with sharing class FacifyHelper {
         List<Report> reports = [
             SELECT Id, Name, CreatedBy.Name
             FROM Report
+            WHERE CreatedBy.Name != 'Automated Process'
             ORDER BY CreatedDate DESC
             LIMIT :pageSize
             OFFSET :offset
         ];
 
         // Count total
-        Integer totalRecords = [SELECT COUNT() FROM Report];
+        Integer totalRecords = [SELECT COUNT() FROM Report WHERE CreatedBy.Name != 'Automated Process'];
 
         // Build response
         Map<String, Object> response = new Map<String, Object>();

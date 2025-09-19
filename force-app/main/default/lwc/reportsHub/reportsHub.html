@@ -1,8 +1,8 @@
 <template>
   <lightning-card title="Reports Hub">
-    <div class="slds-p-around_medium">
+    <div class="slds-p-around_small">
       <template if:true={reports}>
-        <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+        <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_compact slds-table_fixed-layout">
           <thead>
           <tr>
             <th scope="col">Report Name</th>
@@ -17,10 +17,11 @@
               <td>{rep.createdBy}</td>
               <td>
                 <lightning-button
-                  label="Access in Facify"
+                  label="Open"
                   variant="brand"
                   value={rep.facifyUrl}
-                  onclick={handleRedirect}>
+                  onclick={handleRedirect}
+                  class="slds-button_small">
                 </lightning-button>
               </td>
             </tr>
@@ -28,21 +29,31 @@
           </tbody>
         </table>
 
-        <!-- Pagination Controls -->
-        <div class="slds-m-top_medium slds-grid slds-grid_align-center">
-          <lightning-button
-            label="Previous"
+        <div class="slds-m-top_small slds-grid slds-grid_align-center slds-grid_vertical-align-center">
+
+          <lightning-button-icon
+            icon-name="utility:chevronleft"
+            alternative-text="Previous"
             onclick={handlePrev}
-            disabled={isPrevDisabled}>
-          </lightning-button>
+            disabled={isPrevDisabled}
+            size="small"
+            variant="border-filled"
+            class="slds-m-right_x-small">
+          </lightning-button-icon>
 
-          <span class="slds-m-horizontal_small">{paginationInfo}</span>
+          <div class="slds-m-horizontal_small slds-text-align_center">
+            <span>{paginationInfo}</span>
+          </div>
 
-          <lightning-button
-            label="Next"
+          <lightning-button-icon
+            icon-name="utility:chevronright"
+            alternative-text="Next"
             onclick={handleNext}
-            disabled={isNextDisabled}>
-          </lightning-button>
+            disabled={isNextDisabled}
+            size="small"
+            variant="border-filled"
+            class="slds-m-left_x-small">
+          </lightning-button-icon>
         </div>
       </template>
     </div>
