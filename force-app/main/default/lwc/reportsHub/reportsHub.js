@@ -1,4 +1,4 @@
-import { LightningElement, track } from 'lwc';
+import {LightningElement, track} from 'lwc';
 import USER_ID from '@salesforce/user/Id';
 import getReports from '@salesforce/apex/FacifyHelper.getReports';
 import getOrgId from '@salesforce/apex/FacifyHelper.getOrgId';
@@ -10,10 +10,12 @@ export default class ReportsHub extends LightningElement {
   totalPages = 0;
   totalRecords = 0;
   orgId;
+  recipientType = 1;
 
   connectedCallback() {
-    this.loadReports();
-    this.loadOrgId();
+    this.loadOrgId().then(() => {
+      this.loadReports();
+    });
   }
 
   loadReports() {
@@ -35,15 +37,15 @@ export default class ReportsHub extends LightningElement {
   }
 
   loadOrgId() {
-    getOrgId()
-      .then(data => {
-        this.orgId = data;
-      })
-      .catch(error => {
-        console.error('Error fetching org ID:', error);
-      });
+    return getOrgId()
+        .then(data => {
+          this.orgId = data;
+        })
+        .catch(error => {
+          console.error('Error fetching org ID:', error);
+        });
   }
-
+  
   get orgName() {
     const host = window.location.hostname;
     return host.split('.')[0];
@@ -51,9 +53,15 @@ export default class ReportsHub extends LightningElement {
 
   buildFacifyUrl(reportId) {
     if (!reportId || !USER_ID || !this.orgId) return '';
-    return `https://${this.orgName}.thefacesgroup.org/auth/login?reportId=${reportId}&userId=${USER_ID}&orgId=${this.orgId}`;
+    const params = new URLSearchParams({
+      recipientId: reportId,
+      recipientType: String(this.recipientType ?? ''),
+      userId: USER_ID,
+      orgId: this.orgId
+    });
+    return `https://api.thefacesgroup.org/api/v1/salesforce/oauth/start?${params.toString()}`;
   }
-
+  
   handleNext() {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
