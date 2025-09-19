@@ -59,7 +59,7 @@ export default class ReportsHub extends LightningElement {
       userId: USER_ID,
       orgId: this.orgId
     });
-    return `http://api.facify.md/api/v1/salesforce/oauth/start?${params.toString()}`;
+    return `https://api.thefacesgroup.org/api/v1/salesforce/oauth/start?${params.toString()}`;
   }
   
   handleNext() {
