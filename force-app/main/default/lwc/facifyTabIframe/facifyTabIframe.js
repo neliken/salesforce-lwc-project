@@ -1,11 +1,12 @@
-import {LightningElement, wire} from "lwc";
+import { LightningElement, wire } from "lwc";
 import USER_ID from "@salesforce/user/Id";
-import {CurrentPageReference} from "lightning/navigation";
-import getOrgId from '@salesforce/apex/FacifyHelper.getOrgId';
+import { CurrentPageReference } from "lightning/navigation";
+import getOrgId from "@salesforce/apex/FacifyHelper.getOrgId";
 
 export default class FacifyTabIframe extends LightningElement {
   contactId;
   orgId;
+  recipientType = 0;
 
   @wire(CurrentPageReference)
   getStateParameters(currentPageReference) {
@@ -15,11 +16,10 @@ export default class FacifyTabIframe extends LightningElement {
   }
 
   @wire(getOrgId)
-  wiredOrgId({data, error}) {
+  wiredOrgId({ data, error }) {
     if (data) {
       this.orgId = data;
     } else {
-      console.error('Error fetching org ID:', error);
     }
   }
 
@@ -33,6 +33,6 @@ export default class FacifyTabIframe extends LightningElement {
 
     if (!this.contactId || !USER_ID || !this.orgId) return "";
 
-    return `https://${orgName}.thefacesgroup.org/auth/login?contactId=${this.contactId}&userId=${USER_ID}&orgId=${this.orgId}`;
+    return `https://${orgName}.thefacesgroup.org/auth/login?recipientId=${this.contactId}&userId=${USER_ID}&orgId=${this.orgId}&recipientType=${this.recipientType}`;
   }
 }
