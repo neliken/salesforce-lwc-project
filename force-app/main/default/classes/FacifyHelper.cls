@@ -1,0 +1,32 @@
+public with sharing class FacifyHelper {
+
+    @AuraEnabled(cacheable=true)
+    public static String getOrgId() {
+        return UserInfo.getOrganizationId();
+    }
+
+    @AuraEnabled(cacheable=true)
+    public static Map<String, Object> getReports(Integer pageNumber, Integer pageSize) {
+        Integer offset = (pageNumber - 1) * pageSize;
+
+        // Query reports
+        List<Report> reports = [
+            SELECT Id, Name, CreatedBy.Name
+            FROM Report
+            WHERE CreatedBy.Name != 'Automated Process'
+            ORDER BY CreatedDate DESC
+            LIMIT :pageSize
+            OFFSET :offset
+        ];
+
+        // Count total
+        Integer totalRecords = [SELECT COUNT() FROM Report WHERE CreatedBy.Name != 'Automated Process'];
+
+        // Build response
+        Map<String, Object> response = new Map<String, Object>();
+        response.put('totalRecords', totalRecords);
+        response.put('records', reports);
+        return response;
+    }
+
+}

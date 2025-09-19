@@ -1,33 +1,38 @@
-import { LightningElement, wire } from 'lwc';
-import getAnyContactId from '@salesforce/apex/FacifySalesforceHelper.getAnyContactId';
-import getOrgId from '@salesforce/apex/FacifySalesforceHelper.getOrgId';
-import USER_ID from '@salesforce/user/Id';
+import { LightningElement, wire } from "lwc";
+import USER_ID from "@salesforce/user/Id";
+import { CurrentPageReference } from "lightning/navigation";
+import getOrgId from "@salesforce/apex/FacifyHelper.getOrgId";
 
 export default class FacifyTabIframe extends LightningElement {
-    contactId;
-    orgId;
+  contactId;
+  orgId;
+  recipientType = 0;
 
-    @wire(getAnyContactId)
-    wiredContact({ data, error }) {
-        if (data) {
-            this.contactId = data;
-        } else {
-            console.error('Error fetching contact:', error);
-        }
+  @wire(CurrentPageReference)
+  getStateParameters(currentPageReference) {
+    if (currentPageReference) {
+      this.contactId = currentPageReference.attributes.recordId;
     }
+  }
 
-    @wire(getOrgId)
-    wiredOrgId({ data, error }) {
-        if (data) {
-            this.orgId = data;
-        } else {
-            console.error('Error fetching org ID:', error);
-        }
+  @wire(getOrgId)
+  wiredOrgId({ data, error }) {
+    if (data) {
+      this.orgId = data;
+    } else {
     }
+  }
 
-    get computedUrl() {
-        if (!this.contactId || !this.orgId) return '';
+  get orgName() {
+    const host = window.location.hostname;
+    return host.split(".")[0];
+  }
 
-        return `https://api.thefacesgroup.org/api/v1/salesforce/oauth/start?contactId=${this.contactId}&userId=${USER_ID}&orgId=${this.orgId}`;
-    }
+  get computedUrl() {
+    const orgName = this.orgName;
+
+    if (!this.contactId || !USER_ID || !this.orgId) return "";
+
+    return `https://${orgName}.thefacesgroup.org/auth/login?recipientId=${this.contactId}&userId=${USER_ID}&orgId=${this.orgId}&recipientType=${this.recipientType}`;
+  }
 }

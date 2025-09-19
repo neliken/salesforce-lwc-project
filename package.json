@@ -16,7 +16,7 @@
     "precommit": "lint-staged"
   },
   "devDependencies": {
-    "@lwc/eslint-plugin-lwc": "^1.1.2",
+    "@lwc/eslint-plugin-lwc": "^2.2.0",
     "@prettier/plugin-xml": "^3.2.2",
     "@salesforce/eslint-config-lwc": "^3.2.3",
     "@salesforce/eslint-plugin-aura": "^2.0.0",
@@ -37,5 +37,9 @@
     "**/{aura,lwc}/**/*.js": [
       "eslint"
     ]
+  },
+  "dependencies": {
+    "@salesforce/user": "^0.0.21",
+    "lightning": "^10.26.0"
   }
 }
