@@ -83,7 +83,6 @@ export default class ReportsHub extends LightningElement {
     }
   }
 
-  // ✅ New safe getters
   get paginationInfo() {
     return `Page ${this.currentPage} of ${this.totalPages} (Total ${this.totalRecords} reports)`;
   }
